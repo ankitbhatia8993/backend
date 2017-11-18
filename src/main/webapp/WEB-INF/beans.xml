@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-       xsi:schemaLocation="
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://cxf.apache.org/jaxrs
+            http://cxf.apache.org/schemas/jaxrs.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.backend.service.service" />
+    <context:component-scan base-package="com.backend.service.dao" />
+    <context:component-scan base-package="com.backend.service.manager" />
+    <context:component-scan base-package="com.backend.service.entity" />
+
+    <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" />
+
+    <bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+        <property name="mapper" ref="jacksonObjectMapper" />
+    </bean>
+
+    <bean id="jacksonObjectMapperFactory" class="com.backend.service.utils.json.JacksonObjectMapperFactory" factory-method="createFactory"/>
+    <bean id="jacksonObjectMapper" factory-bean="jacksonObjectMapperFactory" factory-method="getObjectMapper"/>
+
+    <util:list id="webClientProviders" value-type="java.lang.Object" list-class="java.util.ArrayList">
+        <ref bean="jaxbProvider"/>
+        <ref bean="jsonProvider"/>
+    </util:list>
 
     <jaxrs:server id="backendService" address="/backend">
         <jaxrs:serviceBeans>
-            <ref bean="testService"/>
+            <ref bean="userService"/>
         </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jaxbProvider"/>
+            <ref bean="jsonProvider"/>
+        </jaxrs:providers>
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json" />
+            <entry key="xml" value="application/xml" />
+        </jaxrs:extensionMappings>
     </jaxrs:server>
-
-    <bean id="testService" class="service.impl.TestImpl"></bean>
 </beans>

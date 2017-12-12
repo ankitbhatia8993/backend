@@ -24,10 +24,18 @@ public class UserManagerImpl implements UserManager {
 
     public UserEntry findById(Long id) {
         User user = userDao.findById(id);
-        return convertToEntity(user);
+        return convertToEntry(user);
     }
 
-    private UserEntry convertToEntity(User entity) {
+    public UserEntry update(UserEntry userEntry) {
+        return convertToEntry(userDao.update(convertToEntity(userEntry)));
+    }
+
+    public UserEntry create(UserEntry userEntry) {
+        return convertToEntry(userDao.create(convertToEntity(userEntry)));
+    }
+
+    private UserEntry convertToEntry(User entity) {
         UserEntry entry = new UserEntry();
         entry.setId(entity.getId());
         entry.setFirstName(entity.getFirstName());
@@ -35,5 +43,15 @@ public class UserManagerImpl implements UserManager {
         entry.setEmail(entity.getEmail());
         entry.setGender(entity.getGender());
         return entry;
+    }
+
+    private User convertToEntity(UserEntry entry) {
+        User entity = new User();
+        entity.setId(entry.getId());
+        entity.setFirstName(entry.getFirstName());
+        entity.setLastName(entry.getLastName());
+        entity.setEmail(entry.getEmail());
+        entity.setGender(entry.getGender());
+        return entity;
     }
 }

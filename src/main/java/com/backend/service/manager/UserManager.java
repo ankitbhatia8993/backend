@@ -8,6 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 public interface UserManager {
-    @Transactional
+    @Transactional(readOnly = true)
     UserEntry findById(Long id);
+    @Transactional(rollbackFor = Exception.class)
+    UserEntry update(UserEntry userEntry);
+    @Transactional(rollbackFor = Exception.class)
+    UserEntry create(UserEntry userEntry);
 }

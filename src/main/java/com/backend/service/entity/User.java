@@ -20,7 +20,6 @@ public class User implements Serializable {
 
     @Id
     @Column(name = "id", unique = true)
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(name = "first_name")

@@ -2,14 +2,26 @@ package com.backend.service.entry;
 
 import com.backend.service.enums.Gender;
 
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created by Ankit Bhatia on 12/17/16.
  */
 public class UserEntry {
+    @Id
     private Long id;
+    @NotNull
+    @Size(min = 2, max = 50)
     private String firstName;
+    @NotNull
+    @Size(min = 2, max = 50)
     private String lastName;
+    @NotNull
+    @Size(min = 7, max = 50)
     private String email;
+    @NotNull
     private Gender gender;
 
     public Long getId() {

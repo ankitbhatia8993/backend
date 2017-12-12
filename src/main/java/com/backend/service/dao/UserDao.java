@@ -7,4 +7,8 @@ import com.backend.service.entity.User;
  */
 public interface UserDao {
     User findById(Long id);
+
+    User create(User user);
+
+    User update(User user);
 }

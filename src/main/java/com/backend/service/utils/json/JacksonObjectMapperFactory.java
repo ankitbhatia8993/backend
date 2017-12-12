@@ -19,11 +19,9 @@ public class JacksonObjectMapperFactory {
 	}
 
 	public ObjectMapper getObjectMapper() {
-		
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		
 		return objectMapper;
 	}
 

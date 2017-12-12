@@ -24,4 +24,12 @@ public class UserServiceImpl implements UserService {
     public UserEntry findById(Long id) {
         return manager.findById(id);
     }
+
+    public UserEntry create(UserEntry userEntry) {
+        return manager.create(userEntry);
+    }
+
+    public UserEntry update(UserEntry userEntry) {
+        return manager.update(userEntry);
+    }
 }
